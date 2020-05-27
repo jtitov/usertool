@@ -2,4 +2,5 @@
 User tool for fast create new users with RSA identity
 
 Run tool:
-sudo ./createuser.sh username [sudo group]
+sudo ./createuser.sh username [sudo group] [public key]
+
