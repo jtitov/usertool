@@ -3,14 +3,12 @@
 echo "Create sudo user tool with RSA identity"
 
 function createuser {
-	if [ -z "$1" ]; then
-		read -p "User name:" user
-	else
-		user=$1
-	fi
-	if [ -n "$2" ]; then
-		SGROUP=$2
-	else
+	while [ -z "$user" ]; do
+	read -p "User name:" user
+	done
+
+	read -p "sudo group name [sudo]:" SGRUOP
+	if [ -z "$SGROUP" ]; then
 		SGROUP=sudo
 	fi
 	echo "Creating new user: ${user}, with membeship sudo group ${SGROUP}"
@@ -22,7 +20,11 @@ function createuser {
 
 	mkdir /home/$user/.ssh
 	chmod 700 /home/$user/.ssh
+
+	while [ -z "$pub" ]; do
 	read -p "Paste public key:" pub
+	done
+
 	echo "${pub}" > /home/$user/.ssh/authorized_keys
 
 	chmod 700 /home/$user/.ssh
@@ -34,7 +36,7 @@ if [ "$USER" = "root" ]; then
 	
 	createuser $1 $2
 	if [ $? -ne 0 ]; then
-		echo "Usage tool: sudo ./createuser.sh username [sudo group]"
+		echo "ERROR:Username is null"
 	fi
 else 
 	echo "ERROR: Run this tool as sudo"
