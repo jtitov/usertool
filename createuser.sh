@@ -2,6 +2,21 @@
 
 echo "Create sudo user tool with RSA identity"
 
+while getopts "u:g:p:" option; do
+case $option in
+u)
+user=$OPTARG
+;;
+g)
+SGROUP=$OPTARG
+;;
+p)
+pub=$OPTARG
+;;
+esac
+done
+
+
 function createuser {
 	if [ -z "$1" ]; then
 		while [ -z "$user" ]; do
@@ -13,7 +28,7 @@ function createuser {
 
 	
 	if [ -z "$2" ]; then
-		read -p "sudo group name [sudo]:" SGRUOP
+		read -p "Group name [sudo]:" SGRUOP
 		if [ -z "$SGROUP" ]; then
 			SGROUP=sudo
 		fi
@@ -48,7 +63,7 @@ function createuser {
 
 if [ "$USER" = "root" ]; then 
 	
-	createuser $1 $2 $3
+	createuser $user "$SGROUP" "$pub"
 	if [ $? -ne 0 ]; then
 		echo "ERROR:Username is null"
 	fi
