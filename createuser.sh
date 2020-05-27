@@ -4,7 +4,7 @@ echo "Create sudo user tool with RSA identity"
 
 function createuser {
 	if [ -z "$1" ]; then
-		return 1
+		read -p "User name:" user
 	else
 		user=$1
 	fi
